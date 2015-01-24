@@ -1,0 +1,81 @@
+<%@ page contentType="text/html" pageEncoding="GBK"%>
+<%@ page import="java.io.File"%>
+<%@ page import="java.util.*"%>
+
+<%@page import="java.io.BufferedReader"
+import ="java.io.BufferedWriter"
+import ="java.io.FileNotFoundException"
+import ="java.io.FileReader"
+import ="java.io.FileWriter"
+import ="java.io.IOException"%>
+<html>
+<head><title>点名系统--设置--管理</title></head>
+<body>
+
+<%
+	
+	try{
+	String path=request.getRealPath("");
+	File file = new File(path,"/upload");
+	if(file!=null)
+	{
+		String array[];
+		array=file.list();
+		if(array.length==0)
+		{
+			%><br>没有上传任何班级信息,点击<a href="upload.html">上传</a>上传班级信息<%
+		}
+		else{
+			String filePath = request.getRealPath("/upload//");
+			
+			int cou=0;
+			for(int i=0;i<array.length;i++)
+			{
+
+				File inFile = new File(filePath,array[i]); // 读取的CSV文件
+				String inString = "";
+				BufferedReader reader = new BufferedReader(new FileReader(inFile));
+				if((inString = reader.readLine())!= null){}
+				if((inString = reader.readLine())!= null){}
+				for(int j=0;j<inString.length();j++)
+				{
+					if(inString.charAt(j)=='+')
+					{
+						cou++;							
+					}
+				}
+			%>
+				
+				<%=array[i]%>&nbsp&nbsp&nbsp&nbsp此班本学期已点过<%=cou%>次名
+				
+				
+				<form action="call.jsp">
+				<input type="submit" value="点名">
+				</form>
+				<form action="delete.jsp" method="post">
+					<input type="submit" value="删除"><br>
+					<input type="hidden" name="param" value="<%=array[i]%>"><br>
+				</form>
+				<form action="download.jsp">
+					<input type="submit" value="下载">
+					<input type="hidden" name="param" value="<%=array[i]%>"><br>
+				</form>
+
+			<%
+				reader.close();
+			}
+			%><br><br>点击<a href="upload.html">上传</a>上传班级信息<br><br><%
+		}  
+	 }
+	}catch (Exception e) 
+			{
+ 				%>
+					<%=e%>
+				<%
+			}
+
+%>
+<br><a href="welcome.html">返回主页</a>
+
+</body>
+</html>

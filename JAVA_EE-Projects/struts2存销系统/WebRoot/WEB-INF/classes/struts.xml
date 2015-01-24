@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+ <!--  <constant name="struts.enable.DynamicMethodInvocation" value="false" /> -->
+    <constant name="struts.devMode" value="true" />
+	
+     <package name="default" namespace="/" extends="struts-default">
+		
+		
+		<action name="user_*" class="com.live.mhzever.action.LoginAction" method="{1}">
+			<result name="loginOK">/Success.jsp</result>
+			<result name="registerOK">/Register.jsp</result>
+			<result name="failLogin">/failLogin.jsp</result>
+		</action>
+		
+		<action name="register_*" class="com.live.mhzever.action.RegisterAction" method="{1}">
+			<result name="registerOK">/successRegister.jsp</result>
+			<result name="registerFail">/registerFail.jsp</result>
+			<result name="input">/Register.jsp</result>
+		</action>
+		
+		<action name="add_*" class="com.live.mhzever.action.addGoodsAction" method="{1}">
+			<result name="addOK">/addOK.jsp</result>
+			<result name="addFail">/addFail.jsp</result>
+		</action>
+		<action name="show_*" class="com.live.mhzever.action.StockAction" method="{1}">
+			<result name="updateOK">/updateOK.jsp</result>
+			<result name="addFail">/addFail.jsp</result>
+		</action>
+		
+    </package>
+    
+
+</struts>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>订单管理</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='../stylesheets/css/bootstrap.min.css' />
+    <link rel="stylesheet" type="text/css" href="../stylesheets/css/leanModal.css">
+    <script src="./javascripts/jquery-2.1.1.min.js"></script>
+    <script src="./javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./javascripts/jquery.leanModal.min.js"></script>
+  </head>
+  <body>
+  		<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="row clearfix">
+						<div class="col-md-12 column">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3>商品销售管理系统</h3>
+								</div>
+								
+							</div>
+							<nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
+								<div class="navbar-header">
+									 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Brand</a>
+								</div>
+								
+								<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+									<ul class="nav navbar-nav">
+										<li >
+											 <a href="./sale.html">销售统计</a>
+										</li>
+										<li >
+											 <a href="./goods.html">商品管理</a>
+										</li>
+										<li class="active">
+											 <a href="./order.html">定单管理</a>
+										</li>
+										<li>
+											 <a href="./user.html">用户管理</a>
+										</li>
+									</ul>
+									
+									
+								</div>
+								
+							</nav>
+						
+								<a class="leanbox_02" href="#leanBox_02" rel="leanModal">增加订单</a>
+								<table class="table table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>
+											编号
+										</th>
+										<th>
+											顾客编号
+										</th>
+										<th>
+											交货日期
+										</th>
+										<th>
+											交货地点
+										</th>
+										<th>
+											商 品 号
+										</th>
+										<th>
+											预定数量
+										</th>
+									</tr>
+								</thead>
+								<tbody id="list">
+									
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="leanBox_02" style="min-height:300px; display:none; width:400px;">
+    		<div class="leanbox">
+    			<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						顾客编号：<input type="text" class="form-control" placeholder="请输入顾客编号" id="cus"/><br/><br/>
+						交货日期：<input type="text" class="form-control" placeholder="请输入交货日期" id="date"/></br><br/>
+						交货地点：<input type="text" class="form-control" placeholder="请输入交货地点" id="addr"/><br/><br/>
+						商  &nbsp品  号：<input type="text" class="form-control" placeholder="请输入商品号" id="inID" onchange="inChange()" /></br><br/>
+						预定数量：<input type="text" class="form-control" placeholder="请输入预定数量" id="orNum"/><br/><br/>
+							
+					</div> <br/>
+				<button type="button" class="btn btn-default btn-primary" onclick="addOrder()">订单增加</button>
+				</form>
+					
+    		</div>
+    	</div>
+
+  </body>
+</html>
+<script type="text/javascript">
+	$('.leanbox_02').leanModal({top: 100,closeButton:".modal_close",title:"" });
+	function addOrder(){
+		var cus = $("#cus").val();
+		var date = $("#date").val();
+		var addr = $("#addr").val();
+		var orNum = $("#orNum").val();
+		//alert(cus);
+		$.ajax({
+			type : "GET",
+		    url : "/addOrder",
+		    dataType : "json",
+		    data:{
+		    	goods_id:inid,
+		    	customer_id:cus,
+		    	delivery_date:date,
+		    	delivery_address:addr,
+		    	schedule:orNum
+		    },
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(data.message == 'OK'){
+		    			alert("增加订单成功！");
+		    			location.reload();
+		    		}
+		    		  	
+		    }
+		});
+	}
+	var inid=0;
+	function inChange(){
+		var inID = $("#inID").val();
+		inid = inID;
+		$.ajax({
+			type : "GET",
+		    url : "/inChange",
+		    dataType : "json",
+		    data:{id:inID},
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(JSON.stringify(data.list)!='[]'){
+		    			$("#inID").val(inID+"   ["+data.list[0].goods_name+"]");  
+		    		}else{
+		    			alert("没有此商品！")
+		    		}
+		    		  	
+		    }
+		});
+	}
+		orderList();
+	function orderList(){
+		$.ajax({
+			type : "GET",
+		    url : "/orderList",
+		    dataType : "json",
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		var str = '';
+		    		var length = data.list.length;
+		    		for(var i=0;i<length;i++){
+		    			str += '<tr class="info">'+
+										'<td>'+
+										data.list[i].id+
+										'</td>'+
+										'<td>'+
+											data.list[i].customer_id+
+										'</td>'+
+										'<td>'+
+											data.list[i].delivery_date+
+										'</td>'+
+										'<td>'+
+											data.list[i].delivery_address+
+										'</td>'+
+										'<td>'+
+											data.list[i].goods_id+
+										'</td>'+
+										'<td>'+
+											data.list[i].schedule_num+
+										'</td>'+
+									'</tr>';
+		    		}
+		    		$("#list").html(str);			    	
+		    }
+		});
+}
+</script>

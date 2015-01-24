@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>商品管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='../stylesheets/css/bootstrap.min.css' />
+    
+    <script src="./javascripts/jquery-2.1.1.min.js"></script>
+    <script src="./javascripts/bootstrap.min.js"></script>
+  </head>
+  <body>
+  		<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="row clearfix">
+						<div class="col-md-12 column">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3>商品销售管理系统</h3>
+								</div>
+								
+							</div>
+							<nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
+								<div class="navbar-header">
+									 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Brand</a>
+								</div>
+								
+								<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+									<ul class="nav navbar-nav">
+										<li >
+											 <a href="./sale.html">销售统计</a>
+										</li>
+										<li class="active">
+											 <a href="./goods.html">商品管理</a>
+										</li>
+										<li>
+											 <a href="./order.html">定单管理</a>
+										</li>
+										<li>
+											 <a href="./user.html">用户管理</a>
+										</li>
+									</ul>
+									
+									
+								</div>
+								
+							</nav>
+							<div class="tabbable" id="tabs-616946">
+								<ul class="nav nav-tabs">
+									<li class="active">
+										 <a href="#panel-1" data-toggle="tab">商品入库</a>
+									</li>
+									<li >
+										 <a href="#panel-2" data-toggle="tab">商品出库</a>
+									</li>
+									<li>
+										 <a href="#panel-4" data-toggle="tab">增加新商品</a>
+									</li>
+									<li>
+										 <a href="#panel-3" data-toggle="tab">商品查询</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="panel-1">
+										<p>
+											<form class="navbar-form navbar-left" role="search">
+												<div class="form-group">
+													商品编号：<input type="text" class="form-control" placeholder="请输入商品编号" onchange="inChange()" id="inID"/><br/>
+													商品数量：<input type="text" class="form-control" placeholder="请输入商品数量" id="inNum"/>
+													
+												</div> <br/>
+												<button type="button" class="btn btn-default btn-primary" onclick="inInc()">入库</button>
+											</form>
+											<table class="table table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>
+											编号
+										</th>
+										<th>
+											商品名
+										</th>
+										<th>
+											制造商
+										</th>
+										<th>
+											库存数
+										</th>
+										
+									</tr>
+								</thead>
+								<tbody id="list3">
+									
+									
+								</tbody>
+							</table>
+										</p>
+									</div>
+									<div class="tab-pane " id="panel-2">
+										<p>
+											<form class="navbar-form navbar-left" role="search">
+												<div class="form-group">
+													商品编号：<input type="text" class="form-control" placeholder="请输入商品编号" onchange="outChange()" id="outID"/><br/>
+													商品数量：<input type="text" class="form-control" placeholder="请输入商品数量" id="outNum"/>
+													
+												</div> <br/>
+												<button type="button" class="btn btn-sm btn-warning" onclick="outDesc()">出库</button>
+											</form>
+											<table class="table table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>
+											编号
+										</th>
+										<th>
+											商品名
+										</th>
+										<th>
+											制造商
+										</th>
+										<th>
+											库存数
+										</th>
+										
+									</tr>
+								</thead>
+								<tbody id="list2">
+									
+									
+								</tbody>
+							</table>
+										</p>
+									</div>
+									<div class="tab-pane " id="panel-4">
+										<p>
+											<form class="navbar-form navbar-left" role="search">
+												<div class="form-group">
+													商品名称：<input type="text" class="form-control" placeholder="请输入商品名称" id="addGoodsName"/><br/>
+													商品制造商：<input type="text" class="form-control" placeholder="请输入商品制造商" id="addManufacture"/><br/>
+
+													
+												</div> <br/>
+												<button type="button" class="btn btn-default btn-primary" onclick="addGoods()">增加</button>
+											</form>
+											<table class="table table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>
+											编号
+										</th>
+										<th>
+											商品名
+										</th>
+										<th>
+											制造商
+										</th>
+										<th>
+											库存数
+										</th>
+										
+									</tr>
+								</thead>
+								<tbody id="list1">
+									
+									
+								</tbody>
+							</table>
+										</p>
+									</div>
+									<div class="tab-pane" id="panel-3">
+										
+										<form class="navbar-form navbar-left" role="search">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="请输入商品名"   id="goodsName"/>
+							</div> <button type="button" class="btn btn-default" onclick="search()">查询</button>
+						</form>
+									<table class="table table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>
+											编号
+										</th>
+										<th>
+											商品名
+										</th>
+										<th>
+											制造商
+										</th>
+										<th>
+											库存数
+										</th>
+										
+									</tr>
+								</thead>
+								<tbody id="list">
+									
+									
+								</tbody>
+							</table>
+									</div>
+								</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+  </body>
+</html>
+<script type="text/javascript">
+	function search(){
+		var goodsName = $("#goodsName").val();
+		$.ajax({
+			type : "GET",
+		    url : "/search",
+		    data:{goods_name:goodsName},
+		    dataType : "json",
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		//alert(JSON.stringify(data));
+		    		var str = '';
+		    		var length = data.list.length;
+		    		for(var i=0;i<length;i++){
+		    			str += '<tr class="info">'+
+										'<td>'+
+										data.list[i].id+
+										'</td>'+
+										'<td>'+
+											data.list[i].goods_name+
+										'</td>'+
+										'<td>'+
+											data.list[i].manufacture+
+										'</td>'+
+										'<td>'+
+											data.list[i].goods_num+
+										'</td>'+
+									'</tr>';
+		    		}
+		    		//alert(str);
+		    		$("#list").html(str);		    	
+		    }
+		});
+	}
+	goodsList();
+	function goodsList(){
+		$.ajax({
+			type : "GET",
+		    url : "/goodsList",
+		    dataType : "json",
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		var str = '';
+		    		var length = data.list.length;
+		    		for(var i=0;i<length;i++){
+		    			str += '<tr class="info">'+
+										'<td>'+
+										data.list[i].id+
+										'</td>'+
+										'<td>'+
+											data.list[i].goods_name+
+										'</td>'+
+										'<td>'+
+											data.list[i].manufacture+
+										'</td>'+
+										'<td>'+
+											data.list[i].goods_num+
+										'</td>'+
+									'</tr>';
+		    		}
+		    		$("#list").html(str);	
+		    		$("#list1").html(str);	
+		    		$("#list2").html(str);	
+		    		$("#list3").html(str);		    	
+		    }
+		});
+}
+
+	function addGoods(){
+		var addGoodsName = $("#addGoodsName").val();
+		var manufacture = $("#addManufacture").val();
+		//alert(addGoodsName);
+		$.ajax({
+			type : "GET",
+		    url : "/addGoods",
+		    dataType : "json",
+		    data:{goods_name:addGoodsName,manufacture:manufacture},
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(data.message == 'OK'){
+		    			alert("增加商品成功！");
+		    			location.reload();
+		    		}
+		    }
+		});
+	}
+	var inid = 0;
+	var outid = 0;
+	function outDesc(){
+		var outNum = $("#outNum").val();
+
+		$.ajax({
+			type : "GET",
+		    url : "/outDesc",
+		    dataType : "json",
+		    data:{num:outNum,id:outid},
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(data.message == 'OK'){
+		    			alert("出库成功！");
+		    			location.reload();
+		    		}
+		    }
+		});
+	}
+	function inInc(){
+		var inNum = $("#inNum").val();
+
+		$.ajax({
+			type : "GET",
+		    url : "/inInc",
+		    dataType : "json",
+		    data:{num:inNum,id:inid},
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(data.message == 'OK'){
+		    			alert("人库成功！");
+		    			location.reload();
+		    		}
+		    }
+		});
+	}
+	function inChange(){
+		var inID = $("#inID").val();
+		inid = inID;
+		$.ajax({
+			type : "GET",
+		    url : "/inChange",
+		    dataType : "json",
+		    data:{id:inID},
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(JSON.stringify(data.list)!='[]'){
+		    			$("#inID").val(inID+"   ["+data.list[0].goods_name+"]");  
+		    		}else{
+		    			alert("没有此商品！")
+		    		}
+		    		  	
+		    }
+		});
+	}
+	function outChange(){
+		var outID = $("#outID").val();
+		outid = outID;
+		$.ajax({
+			type : "GET",
+		    url : "/inChange",
+		    dataType : "json",
+		    data:{id:outID},
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(JSON.stringify(data.list)!='[]'){
+		    			$("#outID").val(outID+"   ["+data.list[0].goods_name+"]");  
+		    		}else{
+		    			alert("没有此商品！")
+		    		}
+		    		  	
+		    }
+		});
+	}
+</script>

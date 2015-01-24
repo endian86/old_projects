@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>用户管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='../stylesheets/css/bootstrap.min.css' />
+    <link rel="stylesheet" type="text/css" href="../stylesheets/css/leanModal.css">
+    <script src="./javascripts/jquery-2.1.1.min.js"></script>
+    <script src="./javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./javascripts/jquery.leanModal.min.js"></script>
+    <script type="text/javascript" language="javascript" src="./javascripts/jquery.tmpl.min.js"></script>
+  </head>
+  <body>
+  		<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="row clearfix">
+						<div class="col-md-12 column">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3>商品销售管理系统</h3>
+								</div>
+								
+							</div>
+							<nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
+								<div class="navbar-header">
+									 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Brand</a>
+								</div>
+								
+								<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+									<ul class="nav navbar-nav">
+										<li >
+											 <a href="./sale.html">销售统计</a>
+										</li>
+										<li >
+											 <a href="./goods.html">商品管理</a>
+										</li>
+										<li >
+											 <a href="./order.html">定单管理</a>
+										</li>
+										<li class="active">
+											 <a href="./user.html">用户管理</a>
+										</li>
+									</ul>
+									
+									
+								</div>
+								
+							</nav>
+						
+
+<a class="leanbox_02" href="#leanBox_02" rel="leanModal">增加用户</a>
+<table class="table table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>
+											编号
+										</th>
+										<th>
+											用户名
+										</th>
+										
+										<th>
+											用户密码
+										</th>
+										<th>
+											操作
+										</th>
+									</tr>
+								</thead>
+								<tbody id="list">
+									
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="leanBox_01" style="min-height:250px; display:none; width:400px;">
+    		<div class="leanbox">
+    			<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+
+						新密码：<input type="password" class="form-control" placeholder="请输入新密码"/ id="changep1"></br><br/>
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="password" class="form-control" placeholder="请再次输入新密码" id="changep2"/><br/><br/>
+						
+							
+					</div> <br/>
+				<button type="button" class="btn btn-default btn-primary" onclick="change()">确认修改</button>
+				</form>
+					
+    		</div>
+    	</div>
+<div id="leanBox_02" style="min-height:250px; display:none; width:400px;">
+    		<div class="leanbox">
+    			<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						用户名称：<input type="text" class="form-control" placeholder="请输入用户名称" id="username"/></br>					
+				 <br/>
+						用户密码：<input type="password" class="form-control" placeholder="请输入用户密码" id="password1"/></br><br/>
+						&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="password" class="form-control" placeholder="请再次输入新密码" id="password2"><br/><br/>				
+					</div> <br/>
+				<button type="button" class="btn btn-default btn-primary" onclick="add()">确认增加</button>
+				</form>
+					
+    		</div>
+  </div>
+
+  </body>
+</html>
+<script id="listTemplate" type="text/x-jquery-templ">
+<tr class="info">
+<td>${id}</td>
+<td>${username}</td>
+<td>${password}</td>
+<td>
+<a class="leanbox_01" href="#leanBox_01" rel="leanModal" onclick="param('${username}')">修改密码</a></br></td></tr>
+</script>
+<script type="text/javascript">
+	function change(){
+		var p1 = $("#changep1").val();
+		var p2 = $("#changep2").val();
+		if(!p1 || !p2){
+			alert("密码不能为空");
+			return;
+		}
+		if(p1!=p2){
+			alert("密码不一致！");
+			return;
+		}
+		$.ajax({
+			type : "GET",
+		    url : "/changePW",
+		    dataType : "json",
+		    data:{
+		    	username:changeu,
+		    	password:p1,
+		    },
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(data.message == 'OK'){
+		    			alert("用户密码成功！");
+		    			location.reload();
+		    		}
+		    		  	
+		    }
+		});
+	}
+	$('.leanbox_02').leanModal({top: 100,closeButton:".modal_close",title:"" });
+	function add(){
+		var p1 = $("#password1").val();
+		var p2 = $("#password2").val();
+		var u = $("#username").val();
+		if(!p1 || !p2 || !u){
+			alert("用户名和密码不能为空");
+			return;
+		}
+		if(p1!=p2){
+			alert("密码不一致！");
+			return;
+		}
+		$.ajax({
+			type : "GET",
+		    url : "/addUser",
+		    dataType : "json",
+		    data:{
+		    	username:u,
+		    	password:p1,
+		    },
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		if(data.message == 'OK'){
+		    			alert("增加用户成功！");
+		    			location.reload();
+		    		}
+		    		  	
+		    }
+		});
+	}
+	userList();
+	function userList(){
+		$.ajax({
+			type : "GET",
+		    url : "/userList",
+		    dataType : "json",
+		    jsonp : 'callback',
+		    success: function(data) {
+		    		/*var str = '';
+		    		var length = data.list.length;
+		    		for(var i=0;i<length;i++){
+		    			str += '<tr class="info">'+
+										'<td>'+
+										data.list[i].id+
+										'</td>'+
+										'<td>'+
+											data.list[i].username+
+										'</td>'+
+										'<td>'+
+											data.list[i].password+
+										'</td>'+
+										
+										'<td>'+
+										'<a class="leanbox_01" href="#leanBox_01" rel="leanModal" id="'+i+'">修改密码</a></br>'+
+										'</td>'+
+										'<input type="hidden" id="hidUsername+"'+i+'"" value="'+i+'"/>'
+									'</tr>';
+		    		}
+		    		$("#list").html(str);*/
+		    		$.tmpl(listTemplate, data.list).appendTo( "#list" );
+		    		$('.leanbox_01').leanModal({top: 100,closeButton:".modal_close",title:"" });
+		    	}	
+		    });
+	}
+	var changeu=''
+function param(username){
+	//alert(username);
+	changeu=username
+}
+</script>

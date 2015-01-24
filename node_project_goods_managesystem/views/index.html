@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登陆</title>
+    <link rel='stylesheet' href='../stylesheets/css/bootstrap.min.css' />
+    <script src="./javascripts/jquery-2.1.1.min.js"></script>
+    <script src="./javascripts/config.js"></script>
+  </head>
+  <body>
+   	 <div class="container">
+	<div class="row clearfix">
+		<div class="col-md-4 column">
+		</div>
+		<div class="col-md-4 column">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<h3>
+						登陆
+					</h3>
+				</div>
+			</div>
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<form role="form">
+						<div class="form-group">
+							 <label for="exampleInputEmail1">用户名：</label><input type="text" class="form-control" id="username" placeholder="请再次输入用户名"/>
+						</div>
+						<div class="form-group">
+							 <label for="exampleInputPassword1">密码：</label><input type="password" class="form-control" id="password" placeholder="请输入密码"/>
+						</div>
+						
+					 <button type="button" class="btn btn-default" onclick="login()">登陆</button>
+						
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 column">
+		</div>
+	</div>
+</div>
+  </body>
+</html>
+<script type="text/javascript">
+	function login () {
+		var param = {
+			username:$("#username").val(),
+			password:$("#password").val()
+		};
+		var storagelogin = window.localStorage;
+		$.ajax({
+			type : "GET",
+		    url : "/login",
+		    dataType : "json",
+		    data:param,
+		    jsonp : 'callback',
+		    success: function(data) {
+
+			    	alert(data.message)
+			    	if(data.status == '200'){
+			    		alert(JSON.stringify(data));
+			    		//storagelogin.setItem("level",)
+			    		window.location.href = "./sale.html";
+			    	}else if(data.status == '400'){
+			    		return;
+			    	}
+		    }
+		});
+	}
+</script>
